@@ -1,7 +1,10 @@
 package com.mtgjson;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class MTGCard
 {
 	private String				layout;
@@ -27,6 +30,9 @@ public class MTGCard
 	private String				imageName;
 	private String				border;
 	private String				watermark;
+	private String				reserved;
+	private String				releaseDate;
+	private Map<String,String>	legalities;
 	
 	// Not part of JSON, will be set later
 	private String				setCode;
@@ -232,4 +238,55 @@ public class MTGCard
 	{
 		this.setCode = setCode;
 	}
+	public String getReserved() {
+		return reserved;
+	}
+	public void setReserved(String reserved) {
+		this.reserved = reserved;
+	}
+	public String getReleaseDate() {
+		return releaseDate;
+	}
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public Map<String,String> getLegalities() {
+		return legalities;
+	}
+	public void setLegalities(Map<String,String> legalities) {
+		this.legalities = legalities;
+	}
+	public String toSql() {
+		
+		StringBuilder sqlInsert = new StringBuilder();
+		
+		sqlInsert.append("INSERT INTO ");
+		sqlInsert.append("MTGCARD ");
+		sqlInsert.append("() ");
+		sqlInsert.append("VALUES (");
+		sqlInsert.append(this.multiverseid +", ");
+		sqlInsert.append(this.name +", ");
+		sqlInsert.append(this.rarity +", ");
+		sqlInsert.append(this.cmc +", ");
+		sqlInsert.append(this.manaCost +", ");
+		sqlInsert.append(this.type +", ");
+		sqlInsert.append(this.power +", ");
+		sqlInsert.append(this.toughness +", ");
+		sqlInsert.append(this.text +", ");
+		sqlInsert.append(this.flavor +", ");
+		sqlInsert.append(this.loyalty +", ");
+		sqlInsert.append(this.flavor +", ");
+		sqlInsert.append(this.setCode +", ");
+		sqlInsert.append(this.setName +", ");
+		
+		
+		//TODO GESTION LISTE STRING
+		
+		sqlInsert.append(");");
+		
+		return sqlInsert.toString();
+		
+	}
+
 }

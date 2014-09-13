@@ -2,6 +2,8 @@ package com.mtgjson;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class MTGSet
 {
 	private String					name;
@@ -10,6 +12,7 @@ public class MTGSet
 	private String					border;
 	private String					type;
 	private String					block;
+	private String					gathererCode;
 	private ArrayList<MTGCard>		cards;
 	
 	public String getName()
@@ -67,5 +70,11 @@ public class MTGSet
 	public void setCards(ArrayList<MTGCard> cards)
 	{
 		this.cards = cards;
+	}
+	public String getGathererCode() {
+		return gathererCode;
+	}
+	public void setGathererCode(String gathererCode) {
+		this.gathererCode = gathererCode;
 	}
 }
