@@ -13,6 +13,8 @@ public class MTGSet
 	private String					type;
 	private String					block;
 	private String					gathererCode;
+	
+	private int						editionId;
 	private ArrayList<MTGCard>		cards;
 	
 	public String getName()
@@ -76,5 +78,26 @@ public class MTGSet
 	}
 	public void setGathererCode(String gathererCode) {
 		this.gathererCode = gathererCode;
+	}
+	public String toSql() {
+		StringBuilder sqlInsert = new StringBuilder();
+		
+		sqlInsert.append("INSERT INTO ");
+		sqlInsert.append("MTGEDITION ");
+		sqlInsert.append("(Id, Name, Code) ");
+		sqlInsert.append("VALUES (");
+		sqlInsert.append(this.editionId +", ");
+		sqlInsert.append(this.name +", ");
+		sqlInsert.append(this.code);
+		
+		sqlInsert.append(");");
+		
+		return sqlInsert.toString();
+	}
+	public int getEditionId() {
+		return editionId;
+	}
+	public void setEditionId(int editionId) {
+		this.editionId = editionId;
 	}
 }

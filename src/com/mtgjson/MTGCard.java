@@ -37,6 +37,7 @@ public class MTGCard
 	// Not part of JSON, will be set later
 	private String				setCode;
 	private String				setName;
+	private int					editionId;
 	
 	public String getLayout()
 	{
@@ -267,7 +268,9 @@ public class MTGCard
 		sqlInsert.append("VALUES (");
 		sqlInsert.append(this.multiverseid +", ");
 		sqlInsert.append(this.name +", ");
+		//TODO Rarity in JOIN
 		sqlInsert.append(this.rarity +", ");
+		
 		sqlInsert.append(this.cmc +", ");
 		sqlInsert.append(this.manaCost +", ");
 		sqlInsert.append(this.type +", ");
@@ -277,16 +280,22 @@ public class MTGCard
 		sqlInsert.append(this.flavor +", ");
 		sqlInsert.append(this.loyalty +", ");
 		sqlInsert.append(this.flavor +", ");
-		sqlInsert.append(this.setCode +", ");
-		sqlInsert.append(this.setName +", ");
+		//TODO Edition in JOIN
+		sqlInsert.append(this.editionId +", ");
 		
 		
-		//TODO GESTION LISTE STRING
+		//TODO GESTION LISTE STRING (Types, Legalities, Colors)
 		
 		sqlInsert.append(");");
 		
 		return sqlInsert.toString();
 		
+	}
+	public int getEditionId() {
+		return editionId;
+	}
+	public void setEditionId(int editionId) {
+		this.editionId = editionId;
 	}
 
 }
