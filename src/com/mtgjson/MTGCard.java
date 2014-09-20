@@ -287,15 +287,15 @@ public class MTGCard
 		sqlInsert.append("'" + this.rarity +"', ");		
 		sqlInsert.append("'" + this.cmc +"', ");
 		sqlInsert.append("'" + this.manaCost +"', ");
-		sqlInsert.append("'" + this.type +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(this.type), "'", "''") +"', ");
 		sqlInsert.append("'" + this.power +"', ");
 		sqlInsert.append("'" + this.toughness +"', ");
-		sqlInsert.append("'" + this.loyalty +"', ");		
-		
+		sqlInsert.append("'" + this.loyalty +"', ");
+
 		//TODO GESTION LISTE STRING (Types, Legalities, Colors)
-		sqlInsert.append("'" + StringUtils.join(this.supertypes,"; ") +"', ");
-		sqlInsert.append("'" + StringUtils.join(this.types,"; ") +"', ");
-		sqlInsert.append("'" + StringUtils.join(this.subtypes,"; ") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(StringUtils.join(this.supertypes,"; ")), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(StringUtils.join(this.types,"; ")), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(StringUtils.join(this.subtypes,"; ")), "'", "''") +"', ");
 		if(this.legalities != null){
 			sqlInsert.append("'" + mapJoiner.join(this.legalities) +"', ");
 		}else{
