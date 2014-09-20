@@ -315,7 +315,7 @@ public class MTGCard
 		StringBuilder jsonInsert = new StringBuilder();
 		
 		jsonInsert.append("{\"index\":{\"_index\":\"mtgcard\",\"_type\":\"mtgcard\",\"_id\":\"" + this.idBdd + "\"}}\n");
-		jsonInsert.append("{\"name\":\"" + this.name + "\",\"type\":\"" + this.type + "\",\"text\":\"" + StringEscapeUtils.escapeJson(StringUtils.replace(this.text, "\"", " "))
+		jsonInsert.append("{\"name\":\"" + StringEscapeUtils.escapeJson(this.name) + "\",\"type\":\"" + StringEscapeUtils.escapeJson(this.type) + "\",\"text\":\"" + StringEscapeUtils.escapeJson(this.text)
 //				+ "\n" + this.flavor 
 				+ "\"}\n");
 		
