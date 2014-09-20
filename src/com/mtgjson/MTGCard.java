@@ -3,7 +3,11 @@ package com.mtgjson;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.base.Joiner;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class MTGCard
 {
@@ -26,6 +30,7 @@ public class MTGCard
 	private String				toughness;
 	private Integer				loyalty;
 	private Integer				multiverseid;
+	private Integer				idBdd;
 	private ArrayList<String>	variations;
 	private String				imageName;
 	private String				border;
@@ -258,44 +263,69 @@ public class MTGCard
 	public void setLegalities(Map<String,String> legalities) {
 		this.legalities = legalities;
 	}
-	public String toSql() {
-		
-		StringBuilder sqlInsert = new StringBuilder();
-		
-		sqlInsert.append("INSERT INTO ");
-		sqlInsert.append("MTGCARD ");
-		sqlInsert.append("() ");
-		sqlInsert.append("VALUES (");
-		sqlInsert.append(this.multiverseid +", ");
-		sqlInsert.append(this.name +", ");
-		//TODO Rarity in JOIN
-		sqlInsert.append(this.rarity +", ");
-		
-		sqlInsert.append(this.cmc +", ");
-		sqlInsert.append(this.manaCost +", ");
-		sqlInsert.append(this.type +", ");
-		sqlInsert.append(this.power +", ");
-		sqlInsert.append(this.toughness +", ");
-		sqlInsert.append(this.text +", ");
-		sqlInsert.append(this.flavor +", ");
-		sqlInsert.append(this.loyalty +", ");
-		sqlInsert.append(this.flavor +", ");
-		//TODO Edition in JOIN
-		sqlInsert.append(this.editionId +", ");
-		
-		
-		//TODO GESTION LISTE STRING (Types, Legalities, Colors)
-		
-		sqlInsert.append(");");
-		
-		return sqlInsert.toString();
-		
-	}
 	public int getEditionId() {
 		return editionId;
 	}
 	public void setEditionId(int editionId) {
 		this.editionId = editionId;
+	}
+	
+	public String toSql() {
+		
+		Joiner.MapJoiner mapJoiner = Joiner.on("; ").withKeyValueSeparator("=");
+		StringBuilder sqlInsert = new StringBuilder();
+		
+		sqlInsert.append("INSERT INTO ");
+		sqlInsert.append("MTGCARD ");
+//		sqlInsert.append(" ");
+		sqlInsert.append("VALUES (");
+		sqlInsert.append("'" + this.idBdd +"', ");
+		sqlInsert.append("'" + this.multiverseid +"', ");
+		sqlInsert.append("'" + this.editionId +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(this.name), "'", "''") +"', ");
+		//TODO Rarity in JOIN
+		sqlInsert.append("'" + this.rarity +"', ");		
+		sqlInsert.append("'" + this.cmc +"', ");
+		sqlInsert.append("'" + this.manaCost +"', ");
+		sqlInsert.append("'" + this.type +"', ");
+		sqlInsert.append("'" + this.power +"', ");
+		sqlInsert.append("'" + this.toughness +"', ");
+		sqlInsert.append("'" + this.loyalty +"', ");		
+		
+		//TODO GESTION LISTE STRING (Types, Legalities, Colors)
+		sqlInsert.append("'" + StringUtils.join(this.supertypes,"; ") +"', ");
+		sqlInsert.append("'" + StringUtils.join(this.types,"; ") +"', ");
+		sqlInsert.append("'" + StringUtils.join(this.subtypes,"; ") +"', ");
+		if(this.legalities != null){
+			sqlInsert.append("'" + mapJoiner.join(this.legalities) +"', ");
+		}else{
+			sqlInsert.append("'" + "null"+"', ");
+		}
+		
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(this.text), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(this.flavor), "'", "''") +"' ");
+		
+		sqlInsert.append(");\n");
+		
+		return sqlInsert.toString();
+		
+	}
+	
+	public String toJson() {
+		StringBuilder jsonInsert = new StringBuilder();
+		
+		jsonInsert.append("{\"index\":{\"_index\":\"mtgcard\",\"_type\":\"mtgcard\",\"_id\":\"" + this.idBdd + "\"}}\n");
+		jsonInsert.append("{\"name\":\"" + this.name + "\",\"type\":\"" + this.type + "\",\"text\":\"" + StringEscapeUtils.escapeJson(this.text)
+//				+ "\n" + this.flavor 
+				+ "\"}\n");
+		
+		return jsonInsert.toString();
+	}
+	public Integer getIdBdd() {
+		return idBdd;
+	}
+	public void setIdBdd(Integer idBdd) {
+		this.idBdd = idBdd;
 	}
 
 }

@@ -1,0 +1,35 @@
+CREATE TABLE MTGCARD
+(
+    id INT PRIMARY KEY NOT NULL,
+    multiverseid INT,
+    editionId INT NOT NULL,
+    name VARCHAR(500),
+    rarity VARCHAR(500) NOT NULL,
+    cmc INT,
+    manaCost VARCHAR(50),
+    type VARCHAR(255),
+    power INT,
+	toughness INT,
+	loyalty INT,
+	supertypes VARCHAR(500),
+	types VARCHAR(500),
+	subtypes VARCHAR(500),
+	legalities VARCHAR(500),
+	text VARCHAR(500),
+	flavor VARCHAR(500)
+);
+
+CREATE TABLE MTGEDITION
+(
+    id INT PRIMARY KEY NOT NULL,
+    name VARCHAR(500),
+    code VARCHAR(50)
+);
+
+CREATE IX_MTGCARD_MULTIVERSEID ON MTGCARD (multiverseid);
+CREATE IX_MTGCARD_POWER ON MTGCARD (power,toughness,loyalty);
+CREATE IX_MTGCARD_MANACOST ON MTGCARD (cmc,manaCost);
+CREATE IX_MTGCARD_TYPE ON MTGCARD (type,types,subtypes,supertypes);
+CREATE FK_MTGCARD_EDITIONID ON MTGCARD (editionId);
+CREATE IX_MTGCARD_RARITY ON MTGCARD (rarity);
+CREATE IX_MTGEDITION_CODE ON MTGEDITION (code);

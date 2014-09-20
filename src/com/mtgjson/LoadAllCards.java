@@ -2,8 +2,8 @@ package com.mtgjson;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -24,20 +24,41 @@ public class LoadAllCards {
 	}
 
 	public static List<MTGCard> getAllCards(Map<String, MTGSet> sets) {
+		PrintWriter writerSql = null;
+		PrintWriter writerJson = null;
+		int cardId = 0;
+		try {
+			writerSql = new PrintWriter("MTG.sql", "UTF-8");
+			writerJson = new PrintWriter("mtg.json", "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		List<MTGCard> allCards = new ArrayList<MTGCard>();
 		int editionId=0;
 		for (MTGSet set : sets.values()) {
 			set.setEditionId(editionId);
-			System.out.println(set.toSql());
+//			System.out.println(set.toSql());
+			writerSql.write(set.toSql());
 			for (MTGCard card : set.getCards()) {
+				card.setIdBdd(cardId);
 				card.setSetCode(set.getCode());
 				card.setSetName(set.getName());
 				card.setEditionId(editionId);
 				allCards.add(card);
-				System.out.println(card.toSql());
+//				System.out.println(card.toSql());
+//				System.out.println(card.toJson());
+				writerJson.write(card.toJson());
+				writerSql.write(card.toSql());
+				writerSql.flush();
+				writerJson.flush();
+				cardId++;
 			}
 			editionId++;
 		}
+		writerSql.flush();
+		writerJson.flush();
+		writerSql.close();
+		writerJson.close();
 		return allCards;
 	}
 }
