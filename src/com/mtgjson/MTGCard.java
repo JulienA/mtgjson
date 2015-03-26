@@ -317,6 +317,9 @@ public class MTGCard
 		jsonInsert.append("{\"index\":{\"_index\":\"mtgcard\",\"_type\":\"mtgcard\",\"_id\":\"" + this.idBdd + "\"}}\n");
 		jsonInsert.append("{\"name\":\""
 				+ StringEscapeUtils.escapeJson(this.name)
+				+ "\",\"type\":\""
+				+ StringEscapeUtils.escapeJson(StringUtils
+						.join(this.type, " "))
 				+ "\",\"types\":\""
 				+ StringEscapeUtils.escapeJson(StringUtils
 						.join(this.types, " "))
