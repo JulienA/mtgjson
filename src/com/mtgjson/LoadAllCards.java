@@ -48,6 +48,8 @@ public class LoadAllCards {
 				card.setEditionId(editionId);
 				allCards.add(card);
 //				System.out.println(card.toSql());
+//				System.out.println(card.getTypes());
+//				System.out.println(card.getSupertypes());
 //				System.out.println(card.toJson());
 				writerJson.write(card.toJson());
 				writerSql.write(card.toSql());

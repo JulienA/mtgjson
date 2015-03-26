@@ -307,7 +307,7 @@ public class MTGCard
 		
 		sqlInsert.append(");\n");
 		
-		return sqlInsert.toString();
+		return sqlInsert.toString().replaceAll("'null'", "NULL");
 		
 	}
 	
@@ -315,11 +315,22 @@ public class MTGCard
 		StringBuilder jsonInsert = new StringBuilder();
 		
 		jsonInsert.append("{\"index\":{\"_index\":\"mtgcard\",\"_type\":\"mtgcard\",\"_id\":\"" + this.idBdd + "\"}}\n");
-		jsonInsert.append("{\"name\":\"" + StringEscapeUtils.escapeJson(this.name) + "\",\"type\":\"" + StringEscapeUtils.escapeJson(this.type) + "\",\"text\":\"" + StringEscapeUtils.escapeJson(this.text)
-//				+ "\n" + this.flavor 
+		jsonInsert.append("{\"name\":\""
+				+ StringEscapeUtils.escapeJson(this.name)
+				+ "\",\"types\":\""
+				+ StringEscapeUtils.escapeJson(StringUtils
+						.join(this.types, " "))
+				+ "\",\"supertypes\":\""
+				+ StringEscapeUtils.escapeJson(StringUtils
+						.join(this.supertypes, " "))
+				+ "\",\"subtypes\":\""
+				+ StringEscapeUtils.escapeJson(StringUtils
+						.join(this.subtypes, " ")) + "\",\"text\":\""
+				+ StringEscapeUtils.escapeJson(this.text)
+				// + "\n" + this.flavor
 				+ "\"}\n");
 		
-		return jsonInsert.toString();
+		return jsonInsert.toString().replaceAll("\"null\"", "null");
 	}
 	public Integer getIdBdd() {
 		return idBdd;
