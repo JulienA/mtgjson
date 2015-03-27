@@ -2,7 +2,7 @@ package com.mtgjson;
 
 import java.util.ArrayList;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -86,11 +86,11 @@ public class MTGSet
 		StringBuilder sqlInsert = new StringBuilder();
 		
 		sqlInsert.append("INSERT INTO ");
-		sqlInsert.append("MTGEDITION ");
+		sqlInsert.append("mtgedition ");
 		sqlInsert.append("(id, name, code) ");
 		sqlInsert.append("VALUES (");
 		sqlInsert.append("'" + this.editionId +"', ");
-		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(this.name), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(this.name), "'", "''") +"', ");
 		sqlInsert.append("'" + this.code+"'");
 		
 		sqlInsert.append(");\n");

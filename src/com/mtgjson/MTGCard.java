@@ -3,7 +3,7 @@ package com.mtgjson;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -276,34 +276,34 @@ public class MTGCard
 		StringBuilder sqlInsert = new StringBuilder();
 		
 		sqlInsert.append("INSERT INTO ");
-		sqlInsert.append("MTGCARD ");
+		sqlInsert.append("mtgcard ");
 //		sqlInsert.append(" ");
 		sqlInsert.append("VALUES (");
 		sqlInsert.append("'" + this.idBdd +"', ");
 		sqlInsert.append("'" + this.multiverseid +"', ");
 		sqlInsert.append("'" + this.editionId +"', ");
-		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(this.name), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(this.name), "'", "''") +"', ");
 		//TODO Rarity in JOIN
 		sqlInsert.append("'" + this.rarity +"', ");		
 		sqlInsert.append("'" + this.cmc +"', ");
 		sqlInsert.append("'" + this.manaCost +"', ");
-		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(this.type), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(this.type), "'", "''") +"', ");
 		sqlInsert.append("'" + this.power +"', ");
 		sqlInsert.append("'" + this.toughness +"', ");
 		sqlInsert.append("'" + this.loyalty +"', ");
 
 		//TODO GESTION LISTE STRING (Types, Legalities, Colors)
-		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(StringUtils.join(this.supertypes,"; ")), "'", "''") +"', ");
-		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(StringUtils.join(this.types,"; ")), "'", "''") +"', ");
-		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(StringUtils.join(this.subtypes,"; ")), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(StringUtils.join(this.supertypes,"; ")), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(StringUtils.join(this.types,"; ")), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(StringUtils.join(this.subtypes,"; ")), "'", "''") +"', ");
 		if(this.legalities != null){
 			sqlInsert.append("'" + mapJoiner.join(this.legalities) +"', ");
 		}else{
 			sqlInsert.append("'" + "null"+"', ");
 		}
 		
-		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(this.text), "'", "''") +"', ");
-		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeJson(this.flavor), "'", "''") +"' ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(this.text), "'", "''") +"', ");
+		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(this.flavor), "'", "''") +"' ");
 		
 		sqlInsert.append(");\n");
 		
@@ -316,20 +316,20 @@ public class MTGCard
 		
 		jsonInsert.append("{\"index\":{\"_index\":\"mtgcard\",\"_type\":\"mtgcard\",\"_id\":\"" + this.idBdd + "\"}}\n");
 		jsonInsert.append("{\"name\":\""
-				+ StringEscapeUtils.escapeJson(this.name)
+				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(this.name)
 				+ "\",\"type\":\""
-				+ StringEscapeUtils.escapeJson(StringUtils
+				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(StringUtils
 						.join(this.type, " "))
 				+ "\",\"types\":\""
-				+ StringEscapeUtils.escapeJson(StringUtils
+				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(StringUtils
 						.join(this.types, " "))
 				+ "\",\"supertypes\":\""
-				+ StringEscapeUtils.escapeJson(StringUtils
+				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(StringUtils
 						.join(this.supertypes, " "))
 				+ "\",\"subtypes\":\""
-				+ StringEscapeUtils.escapeJson(StringUtils
+				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(StringUtils
 						.join(this.subtypes, " ")) + "\",\"text\":\""
-				+ StringEscapeUtils.escapeJson(this.text)
+				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(this.text)
 				// + "\n" + this.flavor
 				+ "\"}\n");
 		
