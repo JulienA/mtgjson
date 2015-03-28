@@ -33,8 +33,8 @@ public class LoadAllCards {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		writerSql.write("TRUNCATE TABLE MTGCARD;\n");
-		writerSql.write("TRUNCATE TABLE MTGEDITION;\n");
+		writerSql.write("TRUNCATE TABLE mtgcard;\n");
+		writerSql.write("TRUNCATE TABLE mtgedition;\n");
 		List<MTGCard> allCards = new ArrayList<MTGCard>();
 		int editionId=0;
 		for (MTGSet set : sets.values()) {
