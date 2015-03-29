@@ -329,6 +329,9 @@ public class MTGCard
 				+ "\",\"subtypes\":\""
 				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(StringUtils
 						.join(this.subtypes, " ")) + "\",\"text\":\""
+				+ "\",\"colors\":\""
+				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(StringUtils
+						.join(this.colors, " ")) + "\",\"text\":\""
 				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(this.text)
 				// + "\n" + this.flavor
 				+ "\"}\n");

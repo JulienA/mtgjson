@@ -33,6 +33,7 @@ public class LoadAllCards {
 		PrintWriter writerJson = null;
 		int cardId = 0;
 		int legalitiesId = 0;
+		int colorsId = 0;
 		try {
 			writerSql = new PrintWriter("MTG.sql", "UTF-8");
 			writerJson = new PrintWriter("mtg.json", "UTF-8");
@@ -42,8 +43,10 @@ public class LoadAllCards {
 		writerSql.write("TRUNCATE TABLE mtgcard;\n");
 		writerSql.write("TRUNCATE TABLE mtgedition;\n");
 		List<MTGCard> allCards = new ArrayList<MTGCard>();
-		Set<Entry<String,String>> legalities = new HashSet<Entry<String, String>>(); 
+		Set<Entry<String,String>> legalities = new HashSet<Entry<String, String>>();
+		Set<String> colors = new HashSet<String>();
 		int editionId=0;
+		//Création des cartes et editions
 		for (MTGSet set : sets.values()) {
 			set.setEditionId(editionId);
 			writerSql.write(set.toSql());
@@ -53,8 +56,13 @@ public class LoadAllCards {
 				card.setSetName(set.getName());
 				card.setEditionId(editionId);
 				allCards.add(card);
+				//Alimentation des legalities
 				if(card.getLegalities() != null){					
 					legalities.addAll(card.getLegalities().entrySet());
+				}
+				//Alimentation des couleurs
+				if(card.getColors() != null){					
+					colors.addAll(card.getColors());
 				}
 				writerJson.write(card.toJson());
 				writerSql.write(card.toSql());
@@ -65,6 +73,7 @@ public class LoadAllCards {
 			editionId++;
 		}
 		
+		//Création de table legalities
 		for (Iterator<Entry<String, String>> keyIt = legalities.iterator(); keyIt.hasNext();) {
 			StringBuilder sqlInsert = new StringBuilder();
 			Entry<String, String> key = keyIt.next();
@@ -81,6 +90,7 @@ public class LoadAllCards {
 			legalitiesId++;
 		}
 		
+		//Création de table jointure cards legalities
 		for (MTGCard cardElement : allCards) {
 			if(cardElement.getLegalities() != null){
 				for(Entry<String, String> legalitieSet : cardElement.getLegalities().entrySet()){
@@ -95,8 +105,51 @@ public class LoadAllCards {
 							sqlInsert.append("'" + cardElement.getIdBdd() + "', ");
 							sqlInsert.append("'" + legalitiesId + "'");
 							sqlInsert.append(");\n");
+							break;
 						}
 						legalitiesId++;
+					}
+					
+					
+					writerSql.write(sqlInsert.toString());
+					writerSql.flush();
+					
+				}
+			}
+		}
+		
+		//Création de table color
+		for (String color : colors) {
+			StringBuilder sqlInsert = new StringBuilder();
+			sqlInsert.append("INSERT INTO ");
+			sqlInsert.append("mtgcolors ");
+			sqlInsert.append("VALUES (");
+			sqlInsert.append("'" + colorsId + "', ");
+			sqlInsert.append("'" + color + "'");
+			sqlInsert.append(");\n");
+
+			writerSql.write(sqlInsert.toString());
+			writerSql.flush();
+			colorsId++;
+		}
+		
+		//Création de table jointure cards colors
+		for (MTGCard cardElement : allCards) {
+			if(cardElement.getColors() != null){
+				for (String color : cardElement.getColors()) {
+					StringBuilder sqlInsert = new StringBuilder();
+					colorsId=0;
+					for (String col : colors) {
+						if(col.equals(color)){
+							sqlInsert.append("INSERT INTO ");
+							sqlInsert.append("mtgcardscolors ");
+							sqlInsert.append("VALUES (");
+							sqlInsert.append("'" + cardElement.getIdBdd() + "', ");
+							sqlInsert.append("'" + colorsId + "'");
+							sqlInsert.append(");\n");
+							break;
+						}
+						colorsId++;
 					}
 					
 					
