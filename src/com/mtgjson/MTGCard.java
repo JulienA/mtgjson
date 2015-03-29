@@ -296,11 +296,11 @@ public class MTGCard
 		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(StringUtils.join(this.supertypes,"; ")), "'", "''") +"', ");
 		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(StringUtils.join(this.types,"; ")), "'", "''") +"', ");
 		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(StringUtils.join(this.subtypes,"; ")), "'", "''") +"', ");
-		if(this.legalities != null){
-			sqlInsert.append("'" + mapJoiner.join(this.legalities) +"', ");
-		}else{
-			sqlInsert.append("'" + "null"+"', ");
-		}
+//		if(this.legalities != null){
+//			sqlInsert.append("'" + mapJoiner.join(this.legalities) +"', ");
+//		}else{
+//			sqlInsert.append("'" + "null"+"', ");
+//		}
 		
 		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(this.text), "'", "''") +"', ");
 		sqlInsert.append("'" + StringUtils.replace(StringEscapeUtils.escapeSql(this.flavor), "'", "''") +"' ");
