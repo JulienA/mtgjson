@@ -314,6 +314,11 @@ public class MTGCard
 	public String toJson() {
 		StringBuilder jsonInsert = new StringBuilder();
 		
+		if(this.colors == null || this.colors.size() == 0){
+			this.colors = new ArrayList<String>();
+			this.colors.add("Colorless");
+		}
+		
 		jsonInsert.append("{\"index\":{\"_index\":\"mtgcard\",\"_type\":\"mtgcard\",\"_id\":\"" + this.idBdd + "\"}}\n");
 		jsonInsert.append("{\"name\":\""
 				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(this.name)
@@ -328,10 +333,11 @@ public class MTGCard
 						.join(this.supertypes, " "))
 				+ "\",\"subtypes\":\""
 				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(StringUtils
-						.join(this.subtypes, " ")) + "\",\"text\":\""
+						.join(this.subtypes, " "))
 				+ "\",\"colors\":\""
 				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(StringUtils
-						.join(this.colors, " ")) + "\",\"text\":\""
+						.join(this.colors, " ")) 
+				+ "\",\"text\":\""
 				+ org.apache.commons.lang3.StringEscapeUtils.escapeJson(this.text)
 				// + "\n" + this.flavor
 				+ "\"}\n");
